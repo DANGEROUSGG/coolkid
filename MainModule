@@ -105,6 +105,7 @@ end)
 setJumpPowerButton.MouseButton1Click:Connect(function()
     local jumpPower = tonumber(jumpPowerTextBox.Text)
     if jumpPower then
+        game.Players.LocalPlayer.Character.Humanoid.UseJumpPower = true
         game.Players.LocalPlayer.Character.Humanoid.JumpPower = jumpPower
     else
         warn("Invalid JumpPower Value")
