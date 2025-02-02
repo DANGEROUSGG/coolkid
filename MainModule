@@ -105,8 +105,8 @@ skyButton.Visible = true -- Make sure the change sky button is visible
 skyButton.ZIndex = 2  -- Set a higher ZIndex to display above the God Mode button
 
 -- Skybox change logic
-local skybox1 = "rbxassetid://123456789"  -- Replace with a valid asset ID for the skybox
-local skybox2 = "rbxassetid://987654321"  -- Replace with another valid asset ID for the skybox
+local skybox1 = "rbxassetid://225785077"  -- Replace with a valid asset ID for the skybox
+local skybox2 = "rbxassetid://2996095259"  -- Replace with another valid asset ID for the skybox
 
 -- Function to change the skybox
 local function changeSkybox()
