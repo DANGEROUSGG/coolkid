@@ -88,6 +88,23 @@ godButton.TextSize = 24
 godButton.Parent = listUI
 godButton.Visible = true -- Make sure the god button is visible
 
+-- God Mode functionality
+godButton.MouseButton1Click:Connect(function()
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+
+    -- God Mode logic
+    if not character:FindFirstChild("Humanoid") then return end
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+
+    if humanoid then
+        humanoid.Health = humanoid.MaxHealth -- Set health to max
+        humanoid.HealthChanged:Connect(function()
+            humanoid.Health = humanoid.MaxHealth -- Keep health at max
+        end)
+    end
+end)
+
 -- Give Sword Button
 local swordButton = Instance.new("TextButton")
 swordButton.Size = UDim2.new(0, 250, 0, 40)
