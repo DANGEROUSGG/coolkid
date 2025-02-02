@@ -88,3 +88,40 @@ godButton.MouseButton1Click:Connect(function()
         godButton.Text = "Disable God"  -- Change button text to show disabled option
     end
 end)
+
+-- Create the Change Sky Button
+local skyButton = Instance.new("TextButton")
+skyButton.Size = UDim2.new(0, 150, 0, 50)
+skyButton.Position = UDim2.new(0.5, -75, 0.8, 25)
+skyButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
+skyButton.Text = "Change Sky"
+skyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+skyButton.Font = Enum.Font.SourceSans
+skyButton.TextSize = 24
+skyButton.BackgroundTransparency = 0.3  -- Make sure button is visible
+skyButton.Parent = frame
+skyButton.Visible = true -- Make sure the change sky button is visible
+
+-- Skybox change logic
+local skybox1 = "rbxassetid://225785077"  -- Replace with a valid asset ID for the skybox
+local skybox2 = "rbxassetid://2996095259"  -- Replace with another valid asset ID for the skybox
+
+-- Function to change the skybox
+local function changeSkybox()
+    local sky = Instance.new("Sky")
+    sky.SkyboxBk = skybox1
+    sky.SkyboxDn = skybox1
+    sky.SkyboxFt = skybox1
+    sky.SkyboxLf = skybox1
+    sky.SkyboxRt = skybox1
+    sky.SkyboxUp = skybox1
+    sky.Parent = game.Lighting
+end
+
+-- Toggle the skybox between two options when the button is clicked
+skyButton.MouseButton1Click:Connect(function()
+    if game.Lighting:FindFirstChildOfClass("Sky") then
+        game.Lighting:FindFirstChildOfClass("Sky"):Destroy()
+    end
+    changeSkybox()
+end)
