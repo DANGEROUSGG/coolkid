@@ -3,62 +3,26 @@ local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "MyGUI"
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
--- Create the Frame
-local frame = Instance.new("Frame")
+-- Create the green ScrollingFrame
+local frame = Instance.new("ScrollingFrame")
 frame.Size = UDim2.new(0, 300, 0, 400)  -- Adjust size to accommodate all elements
 frame.Position = UDim2.new(0.5, -150, 0.5, -200)
 frame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+frame.ScrollBarThickness = 10  -- Set thickness for the scrollbar
 frame.Parent = screenGui
 frame.Visible = true -- Make sure the frame is visible
 
--- Make the frame draggable
-local dragging = false
-local dragInput, dragStart, startPos
-
-frame.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end
-    
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = true
-        dragStart = input.Position
-        startPos = frame.Position
-    end
-end)
-
-frame.InputChanged:Connect(function(input)
-    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-        local delta = input.Position - dragStart
-        frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-    end
-end)
-
-frame.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = false
-    end
-end)
-
--- Create the ScrollingFrame (List UI)
-local listUI = Instance.new("ScrollingFrame")
-listUI.Size = UDim2.new(0, 270, 0, 180)  -- Adjust size of the scrolling frame
-listUI.Position = UDim2.new(0.5, -135, 0.2, -90)  -- Positioned inside the frame
-listUI.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-listUI.ScrollBarThickness = 10  -- Set the thickness of the scrollbar
-listUI.Parent = frame
-
--- Add a Layout to the ScrollingFrame for organization
+-- Add UIListLayout for vertical arrangement inside the ScrollingFrame
 local layout = Instance.new("UIListLayout")
 layout.FillDirection = Enum.FillDirection.Vertical
 layout.Padding = UDim.new(0, 10)  -- Space between items in the list
 layout.SortOrder = Enum.SortOrder.LayoutOrder
-layout.Parent = listUI
+layout.Parent = frame
 
 -- Ensure the list is automatically updated when new buttons are added
-listUI.CanvasSize = UDim2.new(0, 270, 0, layout.AbsoluteContentSize.Y)
+frame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
 
--- Create and Parent Buttons to the Frame
-
--- TextBox for changing the display name
+-- Create the TextBox for changing display name
 local displayNameTextBox = Instance.new("TextBox")
 displayNameTextBox.Size = UDim2.new(0, 250, 0, 40)
 displayNameTextBox.Text = "Enter Display Name"
@@ -66,10 +30,10 @@ displayNameTextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 displayNameTextBox.TextColor3 = Color3.fromRGB(0, 0, 0)
 displayNameTextBox.Font = Enum.Font.SourceSans
 displayNameTextBox.TextSize = 18
-displayNameTextBox.Parent = listUI
+displayNameTextBox.Parent = frame
 displayNameTextBox.Visible = true -- Make sure the text box is visible
 
--- Button to change the display name
+-- Create the Change Name button
 local changeNameButton = Instance.new("TextButton")
 changeNameButton.Size = UDim2.new(0, 250, 0, 40)
 changeNameButton.Text = "Change Display Name"
@@ -77,7 +41,7 @@ changeNameButton.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
 changeNameButton.TextColor3 = Color3.fromRGB(0, 0, 0)
 changeNameButton.Font = Enum.Font.SourceSans
 changeNameButton.TextSize = 18
-changeNameButton.Parent = listUI
+changeNameButton.Parent = frame
 changeNameButton.Visible = true -- Make sure the button is visible
 
 -- Change Display Name functionality
@@ -87,7 +51,7 @@ changeNameButton.MouseButton1Click:Connect(function()
     player.DisplayName = newDisplayName
 end)
 
--- God Mode Button
+-- Create the God Mode button
 local godButton = Instance.new("TextButton")
 godButton.Size = UDim2.new(0, 250, 0, 40)
 godButton.Text = "God Mode"
@@ -95,7 +59,7 @@ godButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 godButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 godButton.Font = Enum.Font.SourceSans
 godButton.TextSize = 24
-godButton.Parent = listUI
+godButton.Parent = frame
 godButton.Visible = true -- Make sure the god button is visible
 
 -- God Mode functionality
@@ -115,7 +79,7 @@ godButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- Give Sword Button
+-- Create the Give Sword button
 local swordButton = Instance.new("TextButton")
 swordButton.Size = UDim2.new(0, 250, 0, 40)
 swordButton.Text = "Give Sword"
@@ -123,7 +87,7 @@ swordButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 swordButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 swordButton.Font = Enum.Font.SourceSans
 swordButton.TextSize = 18
-swordButton.Parent = listUI
+swordButton.Parent = frame
 swordButton.Visible = true -- Make sure the sword button is visible
 
 -- Sword functionality
@@ -145,7 +109,7 @@ swordButton.MouseButton1Click:Connect(function()
     handle.Parent = sword
 end)
 
--- Create the Change Sky Button
+-- Create the Change Sky button
 local skyButton = Instance.new("TextButton")
 skyButton.Size = UDim2.new(0, 250, 0, 40)
 skyButton.Text = "Change Sky"
@@ -153,7 +117,7 @@ skyButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
 skyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 skyButton.Font = Enum.Font.SourceSans
 skyButton.TextSize = 24
-skyButton.Parent = listUI
+skyButton.Parent = frame
 skyButton.Visible = true -- Make sure the change sky button is visible
 
 -- Skybox change logic
