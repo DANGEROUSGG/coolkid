@@ -70,13 +70,33 @@ changeNameButton.Font = Enum.Font.SourceSans
 changeNameButton.TextSize = 24
 changeNameButton.Parent = frame
 
--- Function to change the player's name
+-- Function to change the player's name, user ID simulation, and reset the character
 local function changeName()
     local newName = nameTextBox.Text
     if newName ~= "" then
+        -- Update the player's name
         game.Players.LocalPlayer.Name = newName
+
+        -- Simulate changing the user ID (since it can't really change)
+        -- You can set a new "simulated" user ID by doing something like:
+        game.Players.LocalPlayer.UserId = math.round(math.random(1,1000000000000))  -- This doesn't actually change the UserId in Roblox, but you could use this for custom behavior or tracking
+
+        -- Reset/respawn the player's character (this will "change" their character)
+        local player = game.Players.LocalPlayer
+        if player.Character then
+            player.Character:Destroy()  -- Destroy the current character
+        end
+
+        -- Wait for the new character to load
+        player:LoadCharacter()
     end
 end
+
+-- Change name button functionality
+changeNameButton.MouseButton1Click:Connect(function()
+    changeName()
+end)
+
 
 -- Button click event for name change
 changeNameButton.MouseButton1Click:Connect(function()
