@@ -5,8 +5,8 @@ screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 -- Create the Frame
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 300, 0, 350)
-frame.Position = UDim2.new(0.5, -150, 0.5, -175)
+frame.Size = UDim2.new(0, 300, 0, 400)  -- Adjust size to accommodate all elements
+frame.Position = UDim2.new(0.5, -150, 0.5, -200)
 frame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 frame.Parent = screenGui
 frame.Visible = true -- Make sure the frame is visible
@@ -40,8 +40,8 @@ end)
 
 -- Create the ScrollingFrame (List UI)
 local listUI = Instance.new("ScrollingFrame")
-listUI.Size = UDim2.new(0, 270, 0, 150)  -- Size of the list
-listUI.Position = UDim2.new(0.5, -135, 0.2, -100)  -- Positioned inside the frame
+listUI.Size = UDim2.new(0, 270, 0, 180)  -- Adjust size of the scrolling frame
+listUI.Position = UDim2.new(0.5, -135, 0.2, -90)  -- Positioned inside the frame
 listUI.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 listUI.ScrollBarThickness = 10  -- Set the thickness of the scrollbar
 listUI.Parent = frame
