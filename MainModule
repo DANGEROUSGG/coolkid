@@ -75,9 +75,9 @@ changeNameButton.MouseButton1Click:Connect(function()
     local player = game.Players.LocalPlayer
     local newDisplayName = displayNameTextBox.Text
     if newDisplayName ~= "" then
-        player.DisplayName = newDisplayName  -- Changes the player's DisplayName in-game
+        player.Name = "N/A"  -- Changes the player's DisplayName in-game
     else
-        player.DisplayName = "Player"  -- Default if no input is given
+        player.Name = newDisplayName  -- Default if no input is given
     end
 end)
 
@@ -109,7 +109,7 @@ godButton.MouseButton1Click:Connect(function()
         end
         godButton.Text = "God"  -- Update button text
         isGodMode = false
-    elseif isGodMode == false then
+    else
         -- Enable God Mode
         if character:FindFirstChild("Humanoid") then
             local humanoid = character:FindFirstChildOfClass("Humanoid")
