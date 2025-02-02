@@ -38,54 +38,31 @@ frame.InputEnded:Connect(function(input)
     end
 end)
 
--- Create the Fly Button
-local flyButton = Instance.new("TextButton")
-flyButton.Size = UDim2.new(0, 150, 0, 50)
-flyButton.Position = UDim2.new(0.5, -75, 0.7, -25)
-flyButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-flyButton.Text = "Fly"
-flyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-flyButton.Font = Enum.Font.SourceSans
-flyButton.TextSize = 24
-flyButton.BackgroundTransparency = 0.3  -- Make sure button is visible
-flyButton.Parent = frame
-flyButton.Visible = true
-
--- Variable to track if the player is flying
-local isFlying = false
-
--- Function to toggle flying
-local function toggleFly()
-    local UserInputService = game:GetService("UserInputService")
-local fly = false
-local plr = game.Players.LocalPlayer
-
-UserInputService.InputBegan:Connect(function(input)
-	if not fly then
-		fly = true
-	if input.KeyCode == Enum.KeyCode.F then
-		while fly do
-			plr.Character.Humanoid.Sit = true
-			plr.Character.Head.Velocity = workspace.CurrentCamera.CFrame.LookVector*60 + Vector3.new(0,10,0)
-			wait()
-		end
-	end
-	end
-	end)
-
-UserInputService.InputEnded:Connect(function(input)
-	if input.KeyCode == Enum.KeyCode.F then
-		fly = false
-		plr.Character.Humanoid.Sit = false
-	end
+local player = game.Players.LocalPlayer --Refer the player
+local mouse = player:GetMouse() --Lets get the players mouse so we can get the flying direction
+local character = ple.Character or plr.CharacterAdded:Wait() --Lets wait for the character to be added
+local BV = Instance.new("BodyVelocity",character:WaitForChild("HumanoidRootPart") --Lets create our BodyVelocity and parent it to the HumanoidRootPart of our player
+BV.MaxForce = Vector3.new(math.huge,math.huge,math.huge) --We set it to infinite so our player wont fall.
+ 
+mouse.Move:Connect(function() --Detect when the mouse moves
+  BV.Velocity = CFrame.new(character.HumanoidRootPart.Position,mouse.Hit.Position).LookVector * SPEED --Set Velocity to the mouse position everytime the mouse moves
 end)
-
+ 
+local Bind = false
+local UIS = game:GetService("UserInputService")
+BV.MaxForce Vector3.new(0,0,0)
+UIS.InputBegan:Connect(function(input)
+   if input.KeyCode == Enum.KeyCode.F and not Bind then
+     Bind = true
+   elseif input.KeyCode == Enum.KeyCode.F and Bind then
+      Bind = false
+    end
+end)
+mouse.Move:Connect(function() --Detect when the mouse moves
+if Bind then
+BV.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
+BV.Velocity = CFrame.new(character.HumanoidRootPart.Position,mouse.Hit.Position).LookVector * SPEED --Set Velocity to the mouse position everytime the mouse moves
 end
-
--- Button click event for flying
-flyButton.MouseButton1Click:Connect(function()
-    toggleFly()
-end)
 
 -- Create the Name Change TextBox
 local nameTextBox = Instance.new("TextBox")
