@@ -9,7 +9,7 @@ frame.Size = UDim2.new(0, 300, 0, 350)
 frame.Position = UDim2.new(0.5, -150, 0.5, -175)
 frame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 frame.Parent = screenGui
-frame.Visible = true
+frame.Visible = true -- Make sure the frame is visible
 
 -- Make the frame draggable
 local dragging = false
@@ -38,31 +38,69 @@ frame.InputEnded:Connect(function(input)
     end
 end)
 
-local player = game.Players.LocalPlayer --Refer the player
-local mouse = player:GetMouse() --Lets get the players mouse so we can get the flying direction
-local character = ple.Character or plr.CharacterAdded:Wait() --Lets wait for the character to be added
-local BV = Instance.new("BodyVelocity",character:WaitForChild("HumanoidRootPart") --Lets create our BodyVelocity and parent it to the HumanoidRootPart of our player
-BV.MaxForce = Vector3.new(math.huge,math.huge,math.huge) --We set it to infinite so our player wont fall.
- 
-mouse.Move:Connect(function() --Detect when the mouse moves
-  BV.Velocity = CFrame.new(character.HumanoidRootPart.Position,mouse.Hit.Position).LookVector * SPEED --Set Velocity to the mouse position everytime the mouse moves
-end)
- 
+-- Create the Fly Button
+local flyButton = Instance.new("TextButton")
+flyButton.Size = UDim2.new(0, 150, 0, 50)
+flyButton.Position = UDim2.new(0.5, -75, 0.7, -25)
+flyButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+flyButton.Text = "Fly"
+flyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+flyButton.Font = Enum.Font.SourceSans
+flyButton.TextSize = 24
+flyButton.BackgroundTransparency = 0.3  -- Make sure button is visible
+flyButton.Parent = frame
+flyButton.Visible = true -- Make sure the fly button is visible
+
+-- Flying system
+local player = game.Players.LocalPlayer
+local mouse = player:GetMouse()
+local character = player.Character or player.CharacterAdded:Wait()
+local BV = Instance.new("BodyVelocity", character:WaitForChild("HumanoidRootPart"))
+BV.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+BV.Velocity = Vector3.new(0, 0, 0)
+
 local Bind = false
+local SPEED = 100 -- Adjust speed for flying
+
+-- Function to start flying
+local function startFlying()
+    BV.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+end
+
+-- Function to stop flying
+local function stopFlying()
+    BV.MaxForce = Vector3.new(0, 0, 0)
+end
+
+-- Toggle flying with 'F' key
 local UIS = game:GetService("UserInputService")
-BV.MaxForce Vector3.new(0,0,0)
 UIS.InputBegan:Connect(function(input)
-   if input.KeyCode == Enum.KeyCode.F and not Bind then
-     Bind = true
-   elseif input.KeyCode == Enum.KeyCode.F and Bind then
-      Bind = false
+    if input.KeyCode == Enum.KeyCode.F and not Bind then
+        Bind = true
+        startFlying()
+    elseif input.KeyCode == Enum.KeyCode.F and Bind then
+        Bind = false
+        stopFlying()
     end
 end)
-mouse.Move:Connect(function() --Detect when the mouse moves
-if Bind then
-BV.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
-BV.Velocity = CFrame.new(character.HumanoidRootPart.Position,mouse.Hit.Position).LookVector * SPEED --Set Velocity to the mouse position everytime the mouse moves
-end
+
+-- Update flying direction based on mouse movement
+mouse.Move:Connect(function()
+    if Bind then
+        BV.Velocity = CFrame.new(character.HumanoidRootPart.Position, mouse.Hit.Position).LookVector * SPEED
+    end
+end)
+
+-- Button click event for fly toggle
+flyButton.MouseButton1Click:Connect(function()
+    if Bind then
+        stopFlying()
+        Bind = false
+    else
+        startFlying()
+        Bind = true
+    end
+end)
 
 -- Create the Name Change TextBox
 local nameTextBox = Instance.new("TextBox")
@@ -75,7 +113,7 @@ nameTextBox.TextColor3 = Color3.fromRGB(0, 0, 0)
 nameTextBox.Font = Enum.Font.SourceSans
 nameTextBox.TextSize = 24
 nameTextBox.Parent = frame
-nameTextBox.Visible = true
+nameTextBox.Visible = true -- Make sure the text box is visible
 
 -- Create the Change Name Button
 local changeNameButton = Instance.new("TextButton")
@@ -88,7 +126,7 @@ changeNameButton.Font = Enum.Font.SourceSans
 changeNameButton.TextSize = 24
 changeNameButton.BackgroundTransparency = 0.3  -- Make sure button is visible
 changeNameButton.Parent = frame
-changeNameButton.Visible = true
+changeNameButton.Visible = true -- Make sure the change name button is visible
 
 -- Function to change the player's name
 local function changeName()
