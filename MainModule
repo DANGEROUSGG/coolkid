@@ -105,6 +105,7 @@ godButton.MouseButton1Click:Connect(function()
         if character:FindFirstChild("Humanoid") then
             local humanoid = character:FindFirstChildOfClass("Humanoid")
             humanoid.HealthChanged:Disconnect()  -- Disconnect the health maintenance
+            humanoid.Health = humanoid.MaxHealth  -- Reset health back to max
         end
         godButton.Text = "God Mode"  -- Update button text
         isGodMode = false
