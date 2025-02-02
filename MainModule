@@ -53,6 +53,9 @@ layout.Padding = UDim.new(0, 10)  -- Space between items in the list
 layout.SortOrder = Enum.SortOrder.LayoutOrder
 layout.Parent = listUI
 
+-- Ensure the list is automatically updated when new buttons are added
+listUI.CanvasSize = UDim2.new(0, 270, 0, layout.AbsoluteContentSize.Y)
+
 -- Create and Parent Buttons to the Frame
 
 -- Change Name Button
