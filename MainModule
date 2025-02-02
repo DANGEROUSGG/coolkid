@@ -170,8 +170,8 @@ respawnButton.MouseButton1Click:Connect(function()
     local character = player.Character
 
     if character then
-        -- Destroy the old character and respawn the player
-        player:LoadCharacter()
+        -- Set health to negative to trigger respawn
+        character:WaitForChild("Humanoid").Health = -100
     end
 end)
 
