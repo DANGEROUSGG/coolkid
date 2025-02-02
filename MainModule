@@ -74,10 +74,8 @@ changeNameButton.Visible = true -- Make sure the button is visible
 changeNameButton.MouseButton1Click:Connect(function()
     local player = game.Players.LocalPlayer
     local newDisplayName = displayNameTextBox.Text
-    if newDisplayName ~= "" then
-        player.Name = newDisplayName -- Changes the player's DisplayName in-game
-    else
-        player.Name = "N/A"  -- Default if no input is given
+    if newDisplayName then
+        player.Name = newDisplayName  -- Changes the player's DisplayName in-game
     end
 end)
 
@@ -94,31 +92,38 @@ godButton.Visible = true -- Make sure the god button is visible
 
 -- God Mode functionality (toggle on and off)
 local isGodMode = false
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Function to enable God Mode
+local function enableGodMode()
+    if humanoid then
+        humanoid.Health = humanoid.MaxHealth -- Set health to max
+        humanoid.HealthChanged:Connect(function()
+            humanoid.Health = humanoid.MaxHealth -- Keep health at max
+        end)
+    end
+end
+
+-- Function to disable God Mode
+local function disableGodMode()
+    if humanoid then
+        humanoid.HealthChanged:Disconnect()  -- Disconnect the health maintenance
+        humanoid.Health = humanoid.MaxHealth  -- Reset health back to max
+    end
+end
 
 godButton.MouseButton1Click:Connect(function()
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-
-    -- Toggle God Mode
-    if isGodMode == true then
+    if isGodMode then
         -- Disable God Mode
-        if character:FindFirstChild("Humanoid") then
-            local humanoid = character:FindFirstChildOfClass("Humanoid")
-            humanoid.HealthChanged:Disconnect()  -- Disconnect the health maintenance
-            humanoid.Health = humanoid.MaxHealth  -- Reset health back to max
-        end
-        godButton.Text = "God"  -- Update button text
+        disableGodMode()
+        godButton.Text = "God Mode"  -- Update button text
         isGodMode = false
     else
         -- Enable God Mode
-        if character:FindFirstChild("Humanoid") then
-            local humanoid = character:FindFirstChildOfClass("Humanoid")
-            humanoid.Health = humanoid.MaxHealth -- Set health to max
-            humanoid.HealthChanged:Connect(function()
-                humanoid.Health = humanoid.MaxHealth -- Keep health at max
-            end)
-        end
-        godButton.Text = "Ungod"  -- Update button text
+        enableGodMode()
+        godButton.Text = "Ungod Mode"  -- Update button text
         isGodMode = true
     end
 end)
@@ -171,7 +176,7 @@ respawnButton.MouseButton1Click:Connect(function()
 
     if character then
         -- Set health to negative to trigger respawn
-        character:WaitForChild("Humanoid").Health = -math.huge
+        character:WaitForChild("Humanoid").Health = -100
     end
 end)
 
