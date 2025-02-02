@@ -75,9 +75,9 @@ changeNameButton.MouseButton1Click:Connect(function()
     local player = game.Players.LocalPlayer
     local newDisplayName = displayNameTextBox.Text
     if newDisplayName ~= "" then
-        player.Name = "N/A"  -- Changes the player's DisplayName in-game
+        player.Name = newDisplayName -- Changes the player's DisplayName in-game
     else
-        player.Name = newDisplayName  -- Default if no input is given
+        player.Name = "N/A"  -- Default if no input is given
     end
 end)
 
