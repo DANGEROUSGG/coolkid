@@ -48,11 +48,10 @@ frame.InputEnded:Connect(furnction(input)
     end
 end)
 -- Create Speed TextBox and Button
-local offBox = Instance.new("TextBox")
+local offBox = Instance.new("TextButton")
 offBox.Size = UDim2.new(0, 200, 0, 50)
 offBox.Position = UDim2.new(0.5, -100, 0.2, -25)
-offBox.PlaceholderText = "woa"
-offBox.Text = ""
+offBox.Text = "woah!"
 offBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 offBox.TextColor3 = Color3.fromRGB(0, 0, 0)
 offBox.Font = Enum.Font.SourceSans
