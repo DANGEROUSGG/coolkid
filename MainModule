@@ -114,8 +114,9 @@ local function disableGodMode()
     end
 end
 
+-- Toggle God Mode on button press
 godButton.MouseButton1Click:Connect(function()
-    if isGodMode = true then
+    if isGodMode then
         -- Disable God Mode
         disableGodMode()
         godButton.Text = "God Mode"  -- Update button text
