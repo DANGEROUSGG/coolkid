@@ -166,7 +166,21 @@ swordButton.MouseButton1Click:Connect(function()
     handle.CanCollide = false
     handle.Name = "Handle"
     handle.Parent = sword
+
+    -- Function to handle touch (damage another player)
+    handle.Touched:Connect(function(hit)
+        -- Check if the touched object has a Humanoid (i.e., another player)
+        local humanoid = hit.Parent:FindFirstChild("Humanoid")
+        if humanoid and hit.Parent ~= player.Character then  -- Make sure it's not the player who equipped the sword
+            humanoid.Health = humanoid.Health - 25  -- Dealing 25 damage (adjust as needed)
+            if humanoid.Health <= 0 then
+                -- Optionally, you can add custom behavior on player death
+                humanoid:TakeDamage(25)  -- Ensure the player dies if health goes to 0 or below
+            end
+        end
+    end)
 end)
+
 
 -- Create the Respawn button
 local respawnButton = Instance.new("TextButton")
