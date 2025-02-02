@@ -58,23 +58,33 @@ listUI.CanvasSize = UDim2.new(0, 270, 0, layout.AbsoluteContentSize.Y)
 
 -- Create and Parent Buttons to the Frame
 
--- Change Name Button
+-- TextBox for changing the display name
+local displayNameTextBox = Instance.new("TextBox")
+displayNameTextBox.Size = UDim2.new(0, 250, 0, 40)
+displayNameTextBox.Text = "Enter Display Name"
+displayNameTextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+displayNameTextBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+displayNameTextBox.Font = Enum.Font.SourceSans
+displayNameTextBox.TextSize = 18
+displayNameTextBox.Parent = listUI
+displayNameTextBox.Visible = true -- Make sure the text box is visible
+
+-- Button to change the display name
 local changeNameButton = Instance.new("TextButton")
 changeNameButton.Size = UDim2.new(0, 250, 0, 40)
-changeNameButton.Text = "Change Name"
+changeNameButton.Text = "Change Display Name"
 changeNameButton.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
 changeNameButton.TextColor3 = Color3.fromRGB(0, 0, 0)
 changeNameButton.Font = Enum.Font.SourceSans
 changeNameButton.TextSize = 18
 changeNameButton.Parent = listUI
-changeNameButton.Visible = true -- Make sure it's visible
+changeNameButton.Visible = true -- Make sure the button is visible
 
--- Change Name functionality
+-- Change Display Name functionality
 changeNameButton.MouseButton1Click:Connect(function()
     local player = game.Players.LocalPlayer
-    local newName = "New Name" -- Set the new name here, or prompt the user
-    player.Name = newName
-    player.DisplayName = newName
+    local newDisplayName = displayNameTextBox.Text
+    player.DisplayName = newDisplayName
 end)
 
 -- God Mode Button
