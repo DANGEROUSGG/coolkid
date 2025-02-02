@@ -22,32 +22,6 @@ layout.Parent = frame
 -- Ensure the list is automatically updated when new buttons are added
 frame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
 
--- Make the frame draggable
-local dragging = false
-local dragStart = nil
-local startPos = nil
-
-frame.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = true
-        dragStart = input.Position
-        startPos = frame.Position
-    end
-end)
-
-frame.InputChanged:Connect(function(input)
-    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-        local delta = input.Position - dragStart
-        frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-    end
-end)
-
-frame.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = false
-    end
-end)
-
 -- Create the TextBox for changing display name
 local displayNameTextBox = Instance.new("TextBox")
 displayNameTextBox.Size = UDim2.new(0, 250, 0, 40)
@@ -59,7 +33,7 @@ displayNameTextBox.TextSize = 18
 displayNameTextBox.Parent = frame
 displayNameTextBox.Visible = true -- Make sure the text box is visible
 
--- Create the Change Name button (simulates username change by changing display name)
+-- Create the Change Name button
 local changeNameButton = Instance.new("TextButton")
 changeNameButton.Size = UDim2.new(0, 250, 0, 40)
 changeNameButton.Text = "Change Display Name"
@@ -74,11 +48,7 @@ changeNameButton.Visible = true -- Make sure the button is visible
 changeNameButton.MouseButton1Click:Connect(function()
     local player = game.Players.LocalPlayer
     local newDisplayName = displayNameTextBox.Text
-    if newDisplayName ~= "" then
-        player.DisplayName = newDisplayName  -- Changes the player's DisplayName in-game
-    else
-        player.DisplayName = "Player"  -- Default if no input is given
-    end
+    player.DisplayName = newDisplayName
 end)
 
 -- Create the God Mode button
