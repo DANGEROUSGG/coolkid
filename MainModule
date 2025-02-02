@@ -5,10 +5,11 @@ screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 -- Create the Frame
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 300, 0, 300)
-frame.Position = UDim2.new(0.5, -150, 0.5, -150)
+frame.Size = UDim2.new(0, 300, 0, 350)
+frame.Position = UDim2.new(0.5, -150, 0.5, -175)
 frame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 frame.Parent = screenGui
+frame.Visible = true
 
 -- Make the frame draggable
 local dragging = false
@@ -46,7 +47,9 @@ flyButton.Text = "Fly"
 flyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 flyButton.Font = Enum.Font.SourceSans
 flyButton.TextSize = 24
+flyButton.BackgroundTransparency = 0.3  -- Make sure button is visible
 flyButton.Parent = frame
+flyButton.Visible = true
 
 -- Variable to track if the player is flying
 local isFlying = false
@@ -73,7 +76,7 @@ flyButton.MouseButton1Click:Connect(function()
     toggleFly()
 end)
 
--- Create the Name Change Button and TextBox
+-- Create the Name Change TextBox
 local nameTextBox = Instance.new("TextBox")
 nameTextBox.Size = UDim2.new(0, 200, 0, 50)
 nameTextBox.Position = UDim2.new(0.5, -100, 0.2, -25)
@@ -84,7 +87,9 @@ nameTextBox.TextColor3 = Color3.fromRGB(0, 0, 0)
 nameTextBox.Font = Enum.Font.SourceSans
 nameTextBox.TextSize = 24
 nameTextBox.Parent = frame
+nameTextBox.Visible = true
 
+-- Create the Change Name Button
 local changeNameButton = Instance.new("TextButton")
 changeNameButton.Size = UDim2.new(0, 150, 0, 50)
 changeNameButton.Position = UDim2.new(0.5, -75, 0.4, 25)
@@ -93,7 +98,9 @@ changeNameButton.Text = "Change Name"
 changeNameButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 changeNameButton.Font = Enum.Font.SourceSans
 changeNameButton.TextSize = 24
+changeNameButton.BackgroundTransparency = 0.3  -- Make sure button is visible
 changeNameButton.Parent = frame
+changeNameButton.Visible = true
 
 -- Function to change the player's name
 local function changeName()
