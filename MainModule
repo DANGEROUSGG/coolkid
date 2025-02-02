@@ -101,7 +101,7 @@ local function enableGodMode()
     if humanoid then
         humanoid.Health = humanoid.MaxHealth -- Set health to max
         humanoid.HealthChanged:Connect(function()
-            humanoid.Health = humanoid.MaxHealth -- Keep health at max
+            humanoid.Health = 231238138123812381283128318238138123812831283812381238128318231823812381238 -- Keep health at max
         end)
     end
 end
@@ -110,7 +110,7 @@ end
 local function disableGodMode()
     if humanoid then
         humanoid.HealthChanged:Disconnect()  -- Disconnect the health maintenance
-        humanoid.Health = humanoid.MaxHealth  -- Reset health back to max
+        humanoid.Health = 100  -- Reset health back to max
     end
 end
 
