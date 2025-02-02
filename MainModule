@@ -5,7 +5,34 @@ screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 -- Create the Frame
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 300, 0, 200)  -- Size of the frame (width, height)
-frame.Position = UDim2.new(0.5, -150, 0.5, -100)  -- Position the frame at the center of the screen
-frame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Green background color
+frame.Size = UDim2.new(0, 300, 0, 200)
+frame.Position = UDim2.new(0.5, -150, 0.5, -100)
+frame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 frame.Parent = screenGui
+
+-- Make the frame draggable
+local dragging = false
+local dragInput, dragStart, startPos
+
+frame.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = frame.Position
+    end
+end)
+
+frame.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+frame.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false
+    end
+end)
