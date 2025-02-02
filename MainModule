@@ -38,34 +38,6 @@ frame.InputEnded:Connect(function(input)
     end
 end)
 
--- Create the God Mode Button
-local godButton = Instance.new("TextButton")
-godButton.Size = UDim2.new(0, 150, 0, 50)
-godButton.Position = UDim2.new(0.5, -75, 0.6, -25)  -- Adjusted position
-godButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-godButton.Text = "God Mode"
-godButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-godButton.Font = Enum.Font.SourceSans
-godButton.TextSize = 24
-godButton.BackgroundTransparency = 0.3  -- Make sure button is visible
-godButton.Parent = frame
-godButton.Visible = true -- Make sure the god button is visible
-godButton.ZIndex = 1  -- Set the ZIndex lower for God Mode button
-
--- Create the Change Sky Button
-local skyButton = Instance.new("TextButton")
-skyButton.Size = UDim2.new(0, 150, 0, 50)
-skyButton.Position = UDim2.new(0.5, -75, 0.5, -25)  -- Position over the God Mode button
-skyButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
-skyButton.Text = "Change Sky"
-skyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-skyButton.Font = Enum.Font.SourceSans
-skyButton.TextSize = 24
-skyButton.BackgroundTransparency = 0.3  -- Make sure button is visible
-skyButton.Parent = frame
-skyButton.Visible = true -- Make sure the change sky button is visible
-skyButton.ZIndex = 2  -- Set a higher ZIndex to display above the God Mode button
-
 -- Create the ScrollingFrame (List UI)
 local listUI = Instance.new("ScrollingFrame")
 listUI.Size = UDim2.new(0, 270, 0, 150)  -- Size of the list
@@ -81,31 +53,96 @@ layout.Padding = UDim.new(0, 10)  -- Space between items in the list
 layout.SortOrder = Enum.SortOrder.LayoutOrder
 layout.Parent = listUI
 
--- Add items to the list (buttons for example)
-for i = 1, 5 do
-    local itemButton = Instance.new("TextButton")
-    itemButton.Size = UDim2.new(0, 250, 0, 40)
-    itemButton.Text = "Item " .. i
-    itemButton.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
-    itemButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    itemButton.Font = Enum.Font.SourceSans
-    itemButton.TextSize = 18
-    itemButton.Parent = listUI
-end
+-- Create and Parent Buttons to the Frame
+
+-- Change Name Button
+local changeNameButton = Instance.new("TextButton")
+changeNameButton.Size = UDim2.new(0, 250, 0, 40)
+changeNameButton.Text = "Change Name"
+changeNameButton.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+changeNameButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+changeNameButton.Font = Enum.Font.SourceSans
+changeNameButton.TextSize = 18
+changeNameButton.Parent = listUI
+changeNameButton.Visible = true -- Make sure it's visible
+
+-- Change Name functionality
+changeNameButton.MouseButton1Click:Connect(function()
+    local player = game.Players.LocalPlayer
+    local newName = "New Name" -- Set the new name here, or prompt the user
+    player.Name = newName
+    player.DisplayName = newName
+end)
+
+-- God Mode Button
+local godButton = Instance.new("TextButton")
+godButton.Size = UDim2.new(0, 250, 0, 40)
+godButton.Text = "God Mode"
+godButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+godButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+godButton.Font = Enum.Font.SourceSans
+godButton.TextSize = 24
+godButton.Parent = listUI
+godButton.Visible = true -- Make sure the god button is visible
+
+-- Give Sword Button
+local swordButton = Instance.new("TextButton")
+swordButton.Size = UDim2.new(0, 250, 0, 40)
+swordButton.Text = "Give Sword"
+swordButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+swordButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+swordButton.Font = Enum.Font.SourceSans
+swordButton.TextSize = 18
+swordButton.Parent = listUI
+swordButton.Visible = true -- Make sure the sword button is visible
+
+-- Sword functionality
+swordButton.MouseButton1Click:Connect(function()
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local sword = Instance.new("Tool")
+    sword.Name = "Sword"
+    sword.RequiresHandle = true
+    sword.Parent = player.Backpack
+
+    -- Create a simple sword handle
+    local handle = Instance.new("Part")
+    handle.Size = Vector3.new(0.2, 5, 0.2)
+    handle.Color = Color3.fromRGB(255, 0, 0)
+    handle.Anchored = false
+    handle.CanCollide = false
+    handle.Name = "Handle"
+    handle.Parent = sword
+end)
+
+-- Create the Change Sky Button
+local skyButton = Instance.new("TextButton")
+skyButton.Size = UDim2.new(0, 250, 0, 40)
+skyButton.Text = "Change Sky"
+skyButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
+skyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+skyButton.Font = Enum.Font.SourceSans
+skyButton.TextSize = 24
+skyButton.Parent = listUI
+skyButton.Visible = true -- Make sure the change sky button is visible
+
+-- Skybox change logic
+local skybox1 = "rbxassetid://123456789"  -- Replace with a valid asset ID for the skybox
+local skybox2 = "rbxassetid://987654321"  -- Replace with another valid asset ID for the skybox
 
 -- Function to change the skybox
 local function changeSkybox()
     local sky = Instance.new("Sky")
-    sky.SkyboxBk = "rbxassetid://123456789"  -- Replace with a valid asset ID for the skybox
-    sky.SkyboxDn = "rbxassetid://123456789"
-    sky.SkyboxFt = "rbxassetid://123456789"
-    sky.SkyboxLf = "rbxassetid://123456789"
-    sky.SkyboxRt = "rbxassetid://123456789"
-    sky.SkyboxUp = "rbxassetid://123456789"
+    sky.SkyboxBk = skybox1
+    sky.SkyboxDn = skybox1
+    sky.SkyboxFt = skybox1
+    sky.SkyboxLf = skybox1
+    sky.SkyboxRt = skybox1
+    sky.SkyboxUp = skybox1
     sky.Parent = game.Lighting
 end
 
--- Skybox change logic
+-- Toggle the skybox between two options when the button is clicked
 skyButton.MouseButton1Click:Connect(function()
     if game.Lighting:FindFirstChildOfClass("Sky") then
         game.Lighting:FindFirstChildOfClass("Sky"):Destroy()
