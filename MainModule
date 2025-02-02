@@ -42,7 +42,7 @@ frame.InputChanged:Connect(function(input)
     end
 end)
 
-frame.InputEnded:Connect(function(input)
+frame.InputEnded:Connect(furnction(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
         dragging = false
     end
