@@ -52,44 +52,6 @@ godButton.Parent = frame
 godButton.Visible = true -- Make sure the god button is visible
 godButton.ZIndex = 1  -- Set the ZIndex lower for God Mode button
 
--- God Mode logic
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoid = character:WaitForChild("Humanoid")
-
--- Variable to track God Mode state
-local godModeActive = false
-
--- Function to activate God Mode
-local function activateGodMode()
-    godModeActive = true
-    humanoid.Health = humanoid.Health -- Reset health to current to avoid it dropping below 0.
-    humanoid.MaxHealth = math.huge  -- Set MaxHealth to infinite
-    humanoid.HealthChanged:Connect(function()
-        if godModeActive then
-            humanoid.Health = humanoid.MaxHealth  -- Keep health at max if God Mode is active
-        end
-    end)
-end
-
--- Function to deactivate God Mode
-local function deactivateGodMode()
-    godModeActive = false
-    humanoid.MaxHealth = 100 -- Reset MaxHealth to default
-    humanoid.Health = humanoid.MaxHealth  -- Reset health to default max health
-end
-
--- Toggle God Mode when the button is clicked
-godButton.MouseButton1Click:Connect(function()
-    if godModeActive then
-        deactivateGodMode()
-        godButton.Text = "God Mode"  -- Change button text back
-    else
-        activateGodMode()
-        godButton.Text = "Disable God"  -- Change button text to show disabled option
-    end
-end)
-
 -- Create the Change Sky Button
 local skyButton = Instance.new("TextButton")
 skyButton.Size = UDim2.new(0, 150, 0, 50)
@@ -104,23 +66,46 @@ skyButton.Parent = frame
 skyButton.Visible = true -- Make sure the change sky button is visible
 skyButton.ZIndex = 2  -- Set a higher ZIndex to display above the God Mode button
 
--- Skybox change logic
-local skybox1 = "rbxassetid://225785077"  -- Replace with a valid asset ID for the skybox
-local skybox2 = "rbxassetid://2996095259"  -- Replace with another valid asset ID for the skybox
+-- Create the ScrollingFrame (List UI)
+local listUI = Instance.new("ScrollingFrame")
+listUI.Size = UDim2.new(0, 270, 0, 150)  -- Size of the list
+listUI.Position = UDim2.new(0.5, -135, 0.2, -100)  -- Positioned inside the frame
+listUI.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+listUI.ScrollBarThickness = 10  -- Set the thickness of the scrollbar
+listUI.Parent = frame
+
+-- Add a Layout to the ScrollingFrame for organization
+local layout = Instance.new("UIListLayout")
+layout.FillDirection = Enum.FillDirection.Vertical
+layout.Padding = UDim.new(0, 10)  -- Space between items in the list
+layout.SortOrder = Enum.SortOrder.LayoutOrder
+layout.Parent = listUI
+
+-- Add items to the list (buttons for example)
+for i = 1, 5 do
+    local itemButton = Instance.new("TextButton")
+    itemButton.Size = UDim2.new(0, 250, 0, 40)
+    itemButton.Text = "Item " .. i
+    itemButton.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
+    itemButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    itemButton.Font = Enum.Font.SourceSans
+    itemButton.TextSize = 18
+    itemButton.Parent = listUI
+end
 
 -- Function to change the skybox
 local function changeSkybox()
     local sky = Instance.new("Sky")
-    sky.SkyboxBk = skybox1
-    sky.SkyboxDn = skybox1
-    sky.SkyboxFt = skybox1
-    sky.SkyboxLf = skybox1
-    sky.SkyboxRt = skybox1
-    sky.SkyboxUp = skybox1
+    sky.SkyboxBk = "rbxassetid://123456789"  -- Replace with a valid asset ID for the skybox
+    sky.SkyboxDn = "rbxassetid://123456789"
+    sky.SkyboxFt = "rbxassetid://123456789"
+    sky.SkyboxLf = "rbxassetid://123456789"
+    sky.SkyboxRt = "rbxassetid://123456789"
+    sky.SkyboxUp = "rbxassetid://123456789"
     sky.Parent = game.Lighting
 end
 
--- Toggle the skybox between two options when the button is clicked
+-- Skybox change logic
 skyButton.MouseButton1Click:Connect(function()
     if game.Lighting:FindFirstChildOfClass("Sky") then
         game.Lighting:FindFirstChildOfClass("Sky"):Destroy()
