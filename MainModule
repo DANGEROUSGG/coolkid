@@ -104,8 +104,12 @@ end)
 
 setJumpPowerButton.MouseButton1Click:Connect(function()
     local jumpPower = tonumber(jumpPowerTextBox.Text)
+    local humanoid = game.Players.LocalPlayer.Character:WaitForChild("Humanoid") -- Wait for humanoid to be available
     if jumpPower then
-        game.Players.LocalPlayer.Character.Humanoid.JumpHeight = jumpPower / 7
+        -- Enable JumpPower and set the value
+        humanoid.JumpPower = jumpPower
+        humanoid.JumpHeight = jumpPower / 2  -- Adjusting JumpHeight to make it more consistent with the JumpPower
+        humanoid.UseJumpPower = true -- Enable the JumpPower setting
     else
         warn("Invalid JumpPower Value")
     end
