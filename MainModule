@@ -50,6 +50,7 @@ godButton.TextSize = 24
 godButton.BackgroundTransparency = 0.3  -- Make sure button is visible
 godButton.Parent = frame
 godButton.Visible = true -- Make sure the god button is visible
+godButton.ZIndex = 1  -- Set the ZIndex lower for God Mode button
 
 -- God Mode logic
 local player = game.Players.LocalPlayer
@@ -92,7 +93,7 @@ end)
 -- Create the Change Sky Button
 local skyButton = Instance.new("TextButton")
 skyButton.Size = UDim2.new(0, 150, 0, 50)
-skyButton.Position = UDim2.new(0.5, -75, 0.75, 25)  -- Adjusted position
+skyButton.Position = UDim2.new(0.5, -75, 0.5, -25)  -- Position over the God Mode button
 skyButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
 skyButton.Text = "Change Sky"
 skyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -101,6 +102,7 @@ skyButton.TextSize = 24
 skyButton.BackgroundTransparency = 0.3  -- Make sure button is visible
 skyButton.Parent = frame
 skyButton.Visible = true -- Make sure the change sky button is visible
+skyButton.ZIndex = 2  -- Set a higher ZIndex to display above the God Mode button
 
 -- Skybox change logic
 local skybox1 = "rbxassetid://123456789"  -- Replace with a valid asset ID for the skybox
