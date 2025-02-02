@@ -54,10 +54,17 @@ flyButton.Visible = true -- Make sure the fly button is visible
 -- Flying system
 local player = game.Players.LocalPlayer
 local mouse = player:GetMouse()
+
+-- Wait for the character to load
 local character = player.Character or player.CharacterAdded:Wait()
-local BV = Instance.new("BodyVelocity", character:WaitForChild("HumanoidRootPart"))
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Create BodyVelocity instance
+local BV = Instance.new("BodyVelocity")
 BV.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
 BV.Velocity = Vector3.new(0, 0, 0)
+BV.Parent = humanoidRootPart
 
 local Bind = false
 local SPEED = 100 -- Adjust speed for flying
@@ -87,7 +94,7 @@ end)
 -- Update flying direction based on mouse movement
 mouse.Move:Connect(function()
     if Bind then
-        BV.Velocity = CFrame.new(character.HumanoidRootPart.Position, mouse.Hit.Position).LookVector * SPEED
+        BV.Velocity = CFrame.new(humanoidRootPart.Position, mouse.Hit.Position).LookVector * SPEED
     end
 end)
 
