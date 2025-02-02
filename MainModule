@@ -96,12 +96,20 @@ godButton.Visible = true -- Make sure the god button is visible
 
 -- God Mode functionality (toggle on and off)
 local isGodMode = false
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoid = character:WaitForChild("Humanoid")
+
+-- Function to check if character and humanoid exist
+local function getHumanoid()
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid", 10)  -- Timeout after 10 seconds if no humanoid
+    return humanoid
+end
+
+local humanoid = getHumanoid()
 
 -- Function to enable God Mode
 local function enableGodMode()
+    humanoid = getHumanoid()  -- Make sure to get the humanoid each time
     if humanoid then
         humanoid.Health = 999999999999999  -- Set health to a very high number
     end
@@ -109,6 +117,7 @@ end
 
 -- Function to disable God Mode
 local function disableGodMode()
+    humanoid = getHumanoid()  -- Make sure to get the humanoid each time
     if humanoid then
         humanoid.Health = 100  -- Reset health to 100
     end
