@@ -5,8 +5,8 @@ screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 -- Create the green ScrollingFrame
 local frame = Instance.new("ScrollingFrame")
-frame.Size = UDim2.new(0, 300, 0, 400)  -- Adjust size to accommodate all elements
-frame.Position = UDim2.new(0.5, -150, 0.5, -200)
+frame.Size = UDim2.new(0, 300, 0, 500)  -- Adjust size to accommodate all elements
+frame.Position = UDim2.new(0.5, -150, 0.5, -250)
 frame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 frame.ScrollBarThickness = 10  -- Set thickness for the scrollbar
 frame.Parent = screenGui
@@ -92,20 +92,33 @@ godButton.TextSize = 24
 godButton.Parent = frame
 godButton.Visible = true -- Make sure the god button is visible
 
--- God Mode functionality
+-- God Mode functionality (toggle on and off)
+local isGodMode = false
+
 godButton.MouseButton1Click:Connect(function()
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
 
-    -- God Mode logic
-    if not character:FindFirstChild("Humanoid") then return end
-    local humanoid = character:FindFirstChildOfClass("Humanoid")
-
-    if humanoid then
-        humanoid.Health = humanoid.MaxHealth -- Set health to max
-        humanoid.HealthChanged:Connect(function()
-            humanoid.Health = humanoid.MaxHealth -- Keep health at max
-        end)
+    -- Toggle God Mode
+    if isGodMode then
+        -- Disable God Mode
+        if character:FindFirstChild("Humanoid") then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            humanoid.HealthChanged:Disconnect()  -- Disconnect the health maintenance
+        end
+        godButton.Text = "God Mode"  -- Update button text
+        isGodMode = false
+    else
+        -- Enable God Mode
+        if character:FindFirstChild("Humanoid") then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            humanoid.Health = humanoid.MaxHealth -- Set health to max
+            humanoid.HealthChanged:Connect(function()
+                humanoid.Health = humanoid.MaxHealth -- Keep health at max
+            end)
+        end
+        godButton.Text = "Ungod Mode"  -- Update button text
+        isGodMode = true
     end
 end)
 
@@ -137,6 +150,28 @@ swordButton.MouseButton1Click:Connect(function()
     handle.CanCollide = false
     handle.Name = "Handle"
     handle.Parent = sword
+end)
+
+-- Create the Respawn button
+local respawnButton = Instance.new("TextButton")
+respawnButton.Size = UDim2.new(0, 250, 0, 40)
+respawnButton.Text = "Respawn"
+respawnButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+respawnButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+respawnButton.Font = Enum.Font.SourceSans
+respawnButton.TextSize = 18
+respawnButton.Parent = frame
+respawnButton.Visible = true -- Make sure the respawn button is visible
+
+-- Respawn functionality
+respawnButton.MouseButton1Click:Connect(function()
+    local player = game.Players.LocalPlayer
+    local character = player.Character
+
+    if character then
+        -- Destroy the old character and respawn the player
+        player:LoadCharacter()
+    end
 end)
 
 -- Create the Change Sky button
