@@ -127,6 +127,7 @@ FlyButton.MouseButton1Down:connect(function()
 		speed = 0
 		bg:Destroy()
 		bv:Destroy()
+		plr.Character.Humanoid.PlatformStand = false
 	end
 	mouse.KeyDown:connect(function(key)
 		if key:lower() == "e" then
@@ -157,6 +158,7 @@ FlyButton.MouseButton1Down:connect(function()
 		end
 	end)
 	Fly()
+
 end)
 
 -- Create the Name Change Button and TextBox
