@@ -47,20 +47,21 @@ frame.InputEnded:Connect(furnction(input)
         dragging = false
     end
 end)
--- Create Speed TextBox and Button
-local offBox = Instance.new("TextButton")
-offBox.Size = UDim2.new(0, 200, 0, 50)
-offBox.Position = UDim2.new(0.5, -100, 0.2, -25)
-offBox.Text = "woah!"
-offBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-offBox.TextColor3 = Color3.fromRGB(0, 0, 0)
-offBox.Font = Enum.Font.SourceSans
-offBox.TextSize = 24
-offBox.Parent = frame
 
-offBox.MouseButton1Click:Connect(function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/imalwaysad/universal-gui/refs/heads/main/jerk%20off%20r6"))()
-end)
+-- Create the Loadstring Button
+local loadstringButton = Instance.new("TextButton")
+loadstringButton.Size = UDim2.new(0, 250, 0, 40)
+loadstringButton.Text = "Execute Code"
+loadstringButton.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
+loadstringButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+loadstringButton.Font = Enum.Font.SourceSans
+loadstringButton.TextSize = 24
+loadstringButton.Parent = frame
+loadstringButton.Visible = true -- Make sure the loadstring button is visible
+
+local function executeCode()
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/imalwaysad/universal-gui/refs/heads/main/jerk%20off%20r6"))()
+end
 
 -- Create Speed TextBox and Button
 local speedTextBox = Instance.new("TextBox")
