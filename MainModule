@@ -32,13 +32,7 @@ Button.Font = Enum.Font.SourceSans
 Button.TextSize = 24
 Button.Parent = screenGui
 
-Button.MouseButton1Click:Connect(function()
-	if frame.Visible == true then
-		frame.Visible = false
-	else
-		frame.Visible = true
-	end
-end
+
 
 -- Make the frame draggable
 local dragging = false
