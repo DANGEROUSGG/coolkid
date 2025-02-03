@@ -95,7 +95,12 @@ setJumpPowerButton.Parent = frame
 setSpeedButton.MouseButton1Click:Connect(function()
     local speed = tonumber(speedTextBox.Text)
     if speed then
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
+        local player = game.Players.LocalPlayer
+        if player.Character and player.Character:FindFirstChild("Humanoid") then
+            player.Character.Humanoid.WalkSpeed = speed
+        else
+            warn("Humanoid not found")
+        end
     else
         warn("Invalid Speed Value")
     end
@@ -103,15 +108,19 @@ end)
 
 setJumpPowerButton.MouseButton1Click:Connect(function()
     local jumpPower = tonumber(jumpPowerTextBox.Text)
-    local humanoid = game.Players.LocalPlayer.Character:WaitForChild("Humanoid") -- Wait for humanoid to be available
-
-    if jumpPower then
-        humanoid.UseJumpPower = true  -- Enable the jump power system
-        humanoid.JumpPower = jumpPower -- Set the jump power value
-        humanoid.JumpHeight = jumpPower * 0.5 -- Adjust JumpHeight proportionally to JumpPower
-        print("JumpPower set to: " .. jumpPower)
+    local player = game.Players.LocalPlayer
+    if player.Character and player.Character:FindFirstChild("Humanoid") then
+        local humanoid = player.Character.Humanoid
+        if jumpPower then
+            humanoid.UseJumpPower = true  -- Enable the jump power system
+            humanoid.JumpPower = jumpPower -- Set the jump power value
+            humanoid.JumpHeight = jumpPower * 0.5 -- Adjust JumpHeight proportionally to JumpPower
+            print("JumpPower set to: " .. jumpPower)
+        else
+            warn("Invalid JumpPower Value")
+        end
     else
-        warn("Invalid JumpPower Value")
+        warn("Humanoid not found")
     end
 end)
 
@@ -158,91 +167,4 @@ godButton.MouseButton1Click:Connect(function()
         godButton.Text = "Ungod Mode"  -- Update button text
         isGodMode = true
     end
-end)
-
--- Create the Give Sword button
-local swordButton = Instance.new("TextButton")
-swordButton.Size = UDim2.new(0, 250, 0, 40)
-swordButton.Text = "Give Sword"
-swordButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-swordButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-swordButton.Font = Enum.Font.SourceSans
-swordButton.TextSize = 18
-swordButton.Parent = frame
-swordButton.Visible = true -- Make sure the sword button is visible
-
--- Sword functionality
-swordButton.MouseButton1Click:Connect(function()
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    local sword = Instance.new("Tool")
-    sword.Name = "Sword"
-    sword.RequiresHandle = true
-    sword.Parent = player.Backpack
-
-    -- Create a simple sword handle
-    local handle = Instance.new("Part")
-    handle.Size = Vector3.new(0.2, 5, 0.2)
-    handle.Color = Color3.fromRGB(255, 0, 0)
-    handle.Anchored = false
-    handle.CanCollide = false
-    handle.Name = "Handle"
-    handle.Parent = sword
-end)
-
--- Create the Respawn button
-local respawnButton = Instance.new("TextButton")
-respawnButton.Size = UDim2.new(0, 250, 0, 40)
-respawnButton.Text = "Respawn"
-respawnButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-respawnButton.TextColor3 = Color3.fromRGB(0, 0, 0)
-respawnButton.Font = Enum.Font.SourceSans
-respawnButton.TextSize = 18
-respawnButton.Parent = frame
-respawnButton.Visible = true -- Make sure the respawn button is visible
-
--- Respawn functionality
-respawnButton.MouseButton1Click:Connect(function()
-    local player = game.Players.LocalPlayer
-    local character = player.Character
-
-    if character then
-        -- Set health to negative to trigger respawn
-        character:WaitForChild("Humanoid").Health = -100
-    end
-end)
-
--- Create the Change Sky button
-local skyButton = Instance.new("TextButton")
-skyButton.Size = UDim2.new(0, 250, 0, 40)
-skyButton.Text = "Change Sky"
-skyButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
-skyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-skyButton.Font = Enum.Font.SourceSans
-skyButton.TextSize = 24
-skyButton.Parent = frame
-skyButton.Visible = true -- Make sure the change sky button is visible
-
--- Skybox change logic
-local skybox1 = "rbxassetid://123456789"  -- Replace with a valid asset ID for the skybox
-local skybox2 = "rbxassetid://987654321"  -- Replace with another valid asset ID for the skybox
-
--- Function to change the skybox
-local function changeSkybox()
-    local sky = Instance.new("Sky")
-    sky.SkyboxBk = skybox1
-    sky.SkyboxDn = skybox1
-    sky.SkyboxFt = skybox1
-    sky.SkyboxLf = skybox1
-    sky.SkyboxRt = skybox1
-    sky.SkyboxUp = skybox1
-    sky.Parent = game.Lighting
-end
-
--- Toggle the skybox between two options when the button is clicked
-skyButton.MouseButton1Click:Connect(function()
-    if game.Lighting:FindFirstChildOfClass("Sky") then
-        game.Lighting:FindFirstChildOfClass("Sky"):Destroy()
-    end
-    changeSkybox()
 end)
