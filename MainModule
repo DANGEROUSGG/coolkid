@@ -22,6 +22,26 @@ layout.Parent = frame
 -- Ensure the list is automatically updated when new buttons are added
 frame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
 
+-- Make the frame draggable
+local dragStart, dragInput, dragDifference
+local function updateDrag(input)
+    local delta = input.Position - dragStart
+    frame.Position = UDim2.new(frame.Position.X.Scale, frame.Position.X.Offset + delta.X, frame.Position.Y.Scale, frame.Position.Y.Offset + delta.Y)
+end
+
+frame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragStart = input.Position
+        dragInput = input.InputChanged:Connect(updateDrag)
+    end
+end)
+
+frame.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragInput:Disconnect()
+    end
+end)
+
 -- Create the Name Change Button and TextBox
 local nameTextBox = Instance.new("TextBox")
 nameTextBox.Size = UDim2.new(0, 200, 0, 50)
@@ -175,7 +195,8 @@ swordButton.MouseButton1Click:Connect(function()
     handle.CanCollide = false
     handle.Name = "Handle"
     handle.Parent = sword
--- Function to handle touch (damage another player)
+
+    -- Function to handle touch (damage another player)
     handle.Touched:Connect(function(hit)
         -- Check if the touched object has a Humanoid (i.e., another player)
         local humanoid = hit.Parent:FindFirstChild("Humanoid")
@@ -186,5 +207,25 @@ swordButton.MouseButton1Click:Connect(function()
                 humanoid:TakeDamage(25)  -- Ensure the player dies if health goes to 0 or below
             end
         end
+    end)
+end)
+
+-- Create the GodMode button
+local godModeButton = Instance.new("TextButton")
+godModeButton.Size = UDim2.new(0, 250, 0, 40)
+godModeButton.Text = "GodMode"
+godModeButton.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
+godModeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+godModeButton.Font = Enum.Font.SourceSans
+godModeButton.TextSize = 18
+godModeButton.Parent = frame
+
+-- GodMode functionality
+godModeButton.MouseButton1Click:Connect(function()
+    local player = game.Players.LocalPlayer
+    local humanoid = player.Character:WaitForChild("Humanoid")
+    humanoid.Health = humanoid.MaxHealth  -- Restore health to max health
+    humanoid.HealthChanged:Connect(function()
+        humanoid.Health = humanoid.MaxHealth  -- Prevent health from changing, essentially giving god mode
     end)
 end)
