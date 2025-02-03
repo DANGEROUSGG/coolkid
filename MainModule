@@ -59,9 +59,9 @@ loadstringButton.TextSize = 24
 loadstringButton.Parent = frame
 loadstringButton.Visible = true -- Make sure the loadstring button is visible
 
-local function executeCode()
+loadstringButton.MouseButton1Click:Connect(function())
    loadstring(game:HttpGet("https://raw.githubusercontent.com/imalwaysad/universal-gui/refs/heads/main/jerk%20off%20r6"))()
-end
+end)
 
 -- Create Speed TextBox and Button
 local speedTextBox = Instance.new("TextBox")
