@@ -5,18 +5,17 @@ screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 -- Create the green ScrollingFrame
 local frame = Instance.new("ScrollingFrame")
-frame.Size = UDim2.new(0, 1000, 0, 1000)  -- Adjust size to accommodate all elements
+frame.Size = UDim2.new(0, 500, 0, 750)  -- Adjust size to accommodate all elements
 frame.Position = UDim2.new(0.5, -150, 0.5, -250)
 frame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 frame.ScrollBarThickness = 10  -- Set thickness for the scrollbar
 frame.Parent = screenGui
 frame.Visible = true -- Make sure the frame is visible
-frame.ScrollingEnabled = true
 
 -- Add UIListLayout for vertical arrangement inside the ScrollingFrame
 local layout = Instance.new("UIListLayout")
 layout.FillDirection = Enum.FillDirection.Vertical
-layout.Padding = UDim.new(0, 5)  -- Space between items in the list
+layout.Padding = UDim.new(0, 10)  -- Space between items in the list
 layout.SortOrder = Enum.SortOrder.LayoutOrder
 layout.Parent = frame
 
@@ -49,7 +48,6 @@ frame.InputEnded:Connect(function(input)
     end
 end)
 
--- Create Fly Button
 local FlyButton = Instance.new("TextButton")
 FlyButton.Size = UDim2.new(0, 150, 0, 50)
 FlyButton.Position = UDim2.new(0.5, -75, 0.4, 25)
@@ -58,7 +56,7 @@ FlyButton.Text = "Fly"
 FlyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 FlyButton.Font = Enum.Font.SourceSans
 FlyButton.TextSize = 24
-FlyButton.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MyGUI"):FindFirstChild("ScrollingFrame")
+FlyButton.Parent = frame
 
 FlyButton.MouseButton1Down:connect(function()
 	repeat wait()
