@@ -21,7 +21,7 @@ layout.SortOrder = Enum.SortOrder.LayoutOrder
 layout.Parent = frame
 
 -- Ensure the list is automatically updated when new buttons are added
-frame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
+frame.CanvasSize = UDim2.new(0, layout.AbsoluteContentSize.X, 0, layout.AbsoluteContentSize.Y)
 
 -- Make the frame draggable
 local dragging = false
