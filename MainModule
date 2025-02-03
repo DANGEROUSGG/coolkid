@@ -97,7 +97,6 @@ FlyButton.MouseButton1Click:Connect(function()
         stopFlying()
         FlyButton.Text = "Fly"
     else
-	if flying then
         startFlying()
         FlyButton.Text = "Stop Flying"
     end
