@@ -22,24 +22,27 @@ layout.Parent = frame
 -- Ensure the list is automatically updated when new buttons are added
 frame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
 
-local insertbutton = Instance.new("TextButton")
-insertbutton.Size = UDim2.new(0, 50, 0, 50)
-insertbutton.Position = UDim2.new({0.663, 0},{0.036, 0})
-insertbutton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
-insertbutton.Text = "X"
-insertbutton.TextColor3 = Color3.fromRGB(255, 0, 0)
-insertbutton.Font = Enum.Font.SourceSans
-insertbutton.TextSize = 24
-insertbutton.Parent = screenGui
-
-insertbutton.MouseButton1Click:Connect(function()
-	frame.Visible = not frame.Visible
-end
-
 -- Make the frame draggable
 local dragging = false
 local dragStart = nil
 local startPos = nil
+
+-- Create Toggle Button
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(0, 150, 0, 50)
+toggleButton.Position = UDim2.new(0.5, -75, 0.1, 0)
+toggleButton.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+toggleButton.Text = "Toggle Menu"
+toggleButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+toggleButton.Font = Enum.Font.SourceSans
+toggleButton.TextSize = 24
+toggleButton.Parent = screenGui
+
+-- Toggle Visibility Function
+toggleButton.MouseButton1Click:Connect(function()
+    frame.Visible = not frame.Visible
+end)
+
 
 frame.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
