@@ -20,9 +20,6 @@ layout.Padding = UDim.new(0, 10)  -- Space between items in the list
 layout.SortOrder = Enum.SortOrder.LayoutOrder
 layout.Parent = frame
 
--- Ensure the list is automatically updated when new buttons are added
-frame.CanvasSize = UDim2.new(layout.AbsoluteContentSize.X, 0, layout.AbsoluteContentSize.Y, 0)
-
 -- Make the frame draggable
 local dragging = false
 local dragStart = nil
