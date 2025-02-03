@@ -49,10 +49,6 @@ frame.InputEnded:Connect(function(input)
     end
 end)
 
--- Fly Variables
-local flying = false
-local bodyGyro, bodyVelocity
-
 -- Create Fly Button
 local FlyButton = Instance.new("TextButton")
 FlyButton.Size = UDim2.new(0, 150, 0, 50)
