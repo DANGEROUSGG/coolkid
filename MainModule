@@ -42,13 +42,13 @@ frame.InputChanged:Connect(function(input)
     end
 end)
 
-frame.InputEnded:Connect(furnction(input)
+frame.InputEnded:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
         dragging = false
     end
 end)
 
--- Create Speed TextBox and Button
+-- Create the Speed and JumpPower TextBox and Button
 local speedTextBox = Instance.new("TextBox")
 speedTextBox.Size = UDim2.new(0, 200, 0, 50)
 speedTextBox.Position = UDim2.new(0.5, -100, 0.2, -25)
@@ -63,14 +63,13 @@ speedTextBox.Parent = frame
 local setSpeedButton = Instance.new("TextButton")
 setSpeedButton.Size = UDim2.new(0, 150, 0, 50)
 setSpeedButton.Position = UDim2.new(0.5, -75, 0.3, 25)
-setSpeedButton.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
+setSpeedButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
 setSpeedButton.Text = "Set Speed"
 setSpeedButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 setSpeedButton.Font = Enum.Font.SourceSans
 setSpeedButton.TextSize = 24
 setSpeedButton.Parent = frame
 
--- Create JumpPower TextBox and Button
 local jumpPowerTextBox = Instance.new("TextBox")
 jumpPowerTextBox.Size = UDim2.new(0, 200, 0, 50)
 jumpPowerTextBox.Position = UDim2.new(0.5, -100, 0.4, -25)
@@ -85,7 +84,7 @@ jumpPowerTextBox.Parent = frame
 local setJumpPowerButton = Instance.new("TextButton")
 setJumpPowerButton.Size = UDim2.new(0, 150, 0, 50)
 setJumpPowerButton.Position = UDim2.new(0.5, -75, 0.5, 25)
-setJumpPowerButton.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+setJumpPowerButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
 setJumpPowerButton.Text = "Set JumpPower"
 setJumpPowerButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 setJumpPowerButton.Font = Enum.Font.SourceSans
@@ -109,67 +108,11 @@ setJumpPowerButton.MouseButton1Click:Connect(function()
     if jumpPower then
         humanoid.UseJumpPower = true  -- Enable the jump power system
         humanoid.JumpPower = jumpPower -- Set the jump power value
-        humanoid.JumpHeight = jumpPower / 2 -- Adjust JumpHeight accordingly
+        humanoid.JumpHeight = jumpPower * 0.5 -- Adjust JumpHeight proportionally to JumpPower
         print("JumpPower set to: " .. jumpPower)
     else
         warn("Invalid JumpPower Value")
     end
-end)
-
-
--- Create the Name Change Button and TextBox
-local nameTextBox = Instance.new("TextBox")
-nameTextBox.Size = UDim2.new(0, 200, 0, 50)
-nameTextBox.Position = UDim2.new(0.5, -100, 0.2, -25)
-nameTextBox.PlaceholderText = "Enter new name"
-nameTextBox.Text = ""
-nameTextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-nameTextBox.TextColor3 = Color3.fromRGB(0, 0, 0)
-nameTextBox.Font = Enum.Font.SourceSans
-nameTextBox.TextSize = 24
-nameTextBox.Parent = frame
-
-local changeNameButton = Instance.new("TextButton")
-changeNameButton.Size = UDim2.new(0, 150, 0, 50)
-changeNameButton.Position = UDim2.new(0.5, -75, 0.4, 25)
-changeNameButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
-changeNameButton.Text = "Change Name"
-changeNameButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-changeNameButton.Font = Enum.Font.SourceSans
-changeNameButton.TextSize = 24
-changeNameButton.Parent = frame
-
--- Function to change the player's name, user ID simulation, and reset the character
-local function changeName()
-    local newName = nameTextBox.Text
-    if newName ~= "" then
-        -- Update the player's name
-        game.Players.LocalPlayer.Name = newName
-
-        -- Simulate changing the user ID (since it can't really change)
-        -- You can set a new "simulated" user ID by doing something like:
-        game.Players.LocalPlayer.UserId = math.round(math.random(1,1000000000000))  -- This doesn't actually change the UserId in Roblox, but you could use this for custom behavior or tracking
-
-        -- Reset/respawn the player's character (this will "change" their character)
-        local player = game.Players.LocalPlayer
-        if player.Character then
-            player.Character:Destroy()  -- Destroy the current character
-        end
-
-        -- Wait for the new character to load
-        player:LoadCharacter()
-    end
-end
-
--- Change name button functionality
-changeNameButton.MouseButton1Click:Connect(function()
-    changeName()
-end)
-
-
--- Button click event for name change
-changeNameButton.MouseButton1Click:Connect(function()
-    changeName()
 end)
 
 -- Create the God Mode button
@@ -185,20 +128,12 @@ godButton.Visible = true -- Make sure the god button is visible
 
 -- God Mode functionality (toggle on and off)
 local isGodMode = false
-
--- Function to check if character and humanoid exist
-local function getHumanoid()
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    local humanoid = character:WaitForChild("Humanoid", 10)  -- Timeout after 10 seconds if no humanoid
-    return humanoid
-end
-
-local humanoid = getHumanoid()
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
 
 -- Function to enable God Mode
 local function enableGodMode()
-    humanoid = getHumanoid()  -- Make sure to get the humanoid each time
     if humanoid then
         humanoid.Health = 999999999999999  -- Set health to a very high number
     end
@@ -206,13 +141,11 @@ end
 
 -- Function to disable God Mode
 local function disableGodMode()
-    humanoid = getHumanoid()  -- Make sure to get the humanoid each time
     if humanoid then
         humanoid.Health = 100  -- Reset health to 100
     end
 end
 
--- Toggle God Mode on button press
 godButton.MouseButton1Click:Connect(function()
     if isGodMode then
         -- Disable God Mode
@@ -255,21 +188,7 @@ swordButton.MouseButton1Click:Connect(function()
     handle.CanCollide = false
     handle.Name = "Handle"
     handle.Parent = sword
-
-    -- Function to handle touch (damage another player)
-    handle.Touched:Connect(function(hit)
-        -- Check if the touched object has a Humanoid (i.e., another player)
-        local humanoid = hit.Parent:FindFirstChild("Humanoid")
-        if humanoid and hit.Parent ~= player.Character then  -- Make sure it's not the player who equipped the sword
-            humanoid.Health = humanoid.Health - 25  -- Dealing 25 damage (adjust as needed)
-            if humanoid.Health <= 0 then
-                -- Optionally, you can add custom behavior on player death
-                humanoid:TakeDamage(25)  -- Ensure the player dies if health goes to 0 or below
-            end
-        end
-    end)
 end)
-
 
 -- Create the Respawn button
 local respawnButton = Instance.new("TextButton")
