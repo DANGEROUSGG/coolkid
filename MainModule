@@ -27,21 +27,27 @@ local dragging = false
 local dragStart = nil
 local startPos = nil
 
--- Create Toggle Button
+-- Create the Toggle Button
 local toggleButton = Instance.new("TextButton")
 toggleButton.Size = UDim2.new(0, 150, 0, 50)
-toggleButton.Position = UDim2.new(0.5, -75, 0.1, 0)
-toggleButton.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
-toggleButton.Text = "Toggle Menu"
+toggleButton.Position = UDim2.new(0.5, -75, 0.9, 25)
+toggleButton.BackgroundColor3 = Color3.fromRGB(255, 255, 0)  -- Yellow for visibility
+toggleButton.Text = "Toggle Frame"
 toggleButton.TextColor3 = Color3.fromRGB(0, 0, 0)
 toggleButton.Font = Enum.Font.SourceSans
 toggleButton.TextSize = 24
 toggleButton.Parent = screenGui
 
--- Toggle Visibility Function
+-- Function to toggle the visibility of the ScrollingFrame
+local function toggleFrameVisibility()
+    frame.Visible = not frame.Visible  -- Toggle the frame's visibility
+end
+
+-- Connect the button to toggle the visibility
 toggleButton.MouseButton1Click:Connect(function()
-    frame.Visible = not frame.Visible
+    toggleFrameVisibility()
 end)
+
 
 
 frame.InputBegan:Connect(function(input)
