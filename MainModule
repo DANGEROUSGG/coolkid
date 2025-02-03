@@ -93,11 +93,11 @@ end
 
 -- Toggle Flying on Button Press
 FlyButton.MouseButton1Click:Connect(function()
-    if flying = true then
+    if flying then
         stopFlying()
         FlyButton.Text = "Fly"
-    end
-	if flying = false then
+    else
+	if flying then
         startFlying()
         FlyButton.Text = "Stop Flying"
     end
