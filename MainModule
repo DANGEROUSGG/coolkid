@@ -22,36 +22,45 @@ layout.Parent = frame
 -- Ensure the list is automatically updated when new buttons are added
 frame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
 
--- Make the frame draggable
-local dragging = false
-local dragStart = nil
-local startPos = nil
+-- Create the Name Change Button and TextBox
+local nameTextBox = Instance.new("TextBox")
+nameTextBox.Size = UDim2.new(0, 200, 0, 50)
+nameTextBox.Position = UDim2.new(0.5, -100, 0.2, -25)
+nameTextBox.PlaceholderText = "Enter new name"
+nameTextBox.Text = ""
+nameTextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+nameTextBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+nameTextBox.Font = Enum.Font.SourceSans
+nameTextBox.TextSize = 24
+nameTextBox.Parent = frame
 
-frame.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = true
-        dragStart = input.Position
-        startPos = frame.Position
+local changeNameButton = Instance.new("TextButton")
+changeNameButton.Size = UDim2.new(0, 150, 0, 50)
+changeNameButton.Position = UDim2.new(0.5, -75, 0.4, 25)
+changeNameButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
+changeNameButton.Text = "Change Name"
+changeNameButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+changeNameButton.Font = Enum.Font.SourceSans
+changeNameButton.TextSize = 24
+changeNameButton.Parent = frame
+
+-- Function to change the player's name
+local function changeName()
+    local newName = nameTextBox.Text
+    if newName ~= "" then
+        game.Players.LocalPlayer.Name = newName
     end
+end
+
+-- Button click event for name change
+changeNameButton.MouseButton1Click:Connect(function()
+    changeName()
 end)
 
-frame.InputChanged:Connect(function(input)
-    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-        local delta = input.Position - dragStart
-        frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-    end
-end)
-
-frame.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = false
-    end
-end)
-
--- Create the Speed and JumpPower TextBox and Button
+-- Speed and JumpPower functionality
 local speedTextBox = Instance.new("TextBox")
 speedTextBox.Size = UDim2.new(0, 200, 0, 50)
-speedTextBox.Position = UDim2.new(0.5, -100, 0.2, -25)
+speedTextBox.Position = UDim2.new(0.5, -100, 0.5, -25)
 speedTextBox.PlaceholderText = "Enter Speed"
 speedTextBox.Text = ""
 speedTextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -62,17 +71,26 @@ speedTextBox.Parent = frame
 
 local setSpeedButton = Instance.new("TextButton")
 setSpeedButton.Size = UDim2.new(0, 150, 0, 50)
-setSpeedButton.Position = UDim2.new(0.5, -75, 0.3, 25)
-setSpeedButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
+setSpeedButton.Position = UDim2.new(0.5, -75, 0.6, 25)
+setSpeedButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 setSpeedButton.Text = "Set Speed"
 setSpeedButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 setSpeedButton.Font = Enum.Font.SourceSans
 setSpeedButton.TextSize = 24
 setSpeedButton.Parent = frame
 
+setSpeedButton.MouseButton1Click:Connect(function()
+    local speed = tonumber(speedTextBox.Text)
+    if speed then
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
+    else
+        warn("Invalid Speed Value")
+    end
+end)
+
 local jumpPowerTextBox = Instance.new("TextBox")
 jumpPowerTextBox.Size = UDim2.new(0, 200, 0, 50)
-jumpPowerTextBox.Position = UDim2.new(0.5, -100, 0.4, -25)
+jumpPowerTextBox.Position = UDim2.new(0.5, -100, 0.7, -25)
 jumpPowerTextBox.PlaceholderText = "Enter JumpPower"
 jumpPowerTextBox.Text = ""
 jumpPowerTextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -83,28 +101,13 @@ jumpPowerTextBox.Parent = frame
 
 local setJumpPowerButton = Instance.new("TextButton")
 setJumpPowerButton.Size = UDim2.new(0, 150, 0, 50)
-setJumpPowerButton.Position = UDim2.new(0.5, -75, 0.5, 25)
+setJumpPowerButton.Position = UDim2.new(0.5, -75, 0.8, 25)
 setJumpPowerButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
 setJumpPowerButton.Text = "Set JumpPower"
 setJumpPowerButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 setJumpPowerButton.Font = Enum.Font.SourceSans
 setJumpPowerButton.TextSize = 24
 setJumpPowerButton.Parent = frame
-
--- Speed and JumpPower functionality
-setSpeedButton.MouseButton1Click:Connect(function()
-    local speed = tonumber(speedTextBox.Text)
-    if speed then
-        local player = game.Players.LocalPlayer
-        if player.Character and player.Character:FindFirstChild("Humanoid") then
-            player.Character.Humanoid.WalkSpeed = speed
-        else
-            warn("Humanoid not found")
-        end
-    else
-        warn("Invalid Speed Value")
-    end
-end)
 
 setJumpPowerButton.MouseButton1Click:Connect(function()
     local jumpPower = tonumber(jumpPowerTextBox.Text)
@@ -124,52 +127,28 @@ setJumpPowerButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- Create the God Mode button
-local godButton = Instance.new("TextButton")
-godButton.Size = UDim2.new(0, 250, 0, 40)
-godButton.Text = "God Mode"
-godButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-godButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-godButton.Font = Enum.Font.SourceSans
-godButton.TextSize = 24
-godButton.Parent = frame
-godButton.Visible = true -- Make sure the god button is visible
+-- Create the Respawn button
+local respawnButton = Instance.new("TextButton")
+respawnButton.Size = UDim2.new(0, 250, 0, 40)
+respawnButton.Text = "Respawn"
+respawnButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+respawnButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+respawnButton.Font = Enum.Font.SourceSans
+respawnButton.TextSize = 18
+respawnButton.Parent = frame
 
--- God Mode functionality (toggle on and off)
-local isGodMode = false
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoid = character:WaitForChild("Humanoid")
+-- Respawn functionality
+respawnButton.MouseButton1Click:Connect(function()
+    local player = game.Players.LocalPlayer
+    local character = player.Character
 
--- Function to enable God Mode
-local function enableGodMode()
-    if humanoid then
-        humanoid.Health = 999999999999999  -- Set health to a very high number
-    end
-end
-
--- Function to disable God Mode
-local function disableGodMode()
-    if humanoid then
-        humanoid.Health = 100  -- Reset health to 100
-    end
-end
-
-godButton.MouseButton1Click:Connect(function()
-    if isGodMode then
-        -- Disable God Mode
-        disableGodMode()
-        godButton.Text = "God Mode"  -- Update button text
-        isGodMode = false
-    else
-        -- Enable God Mode
-        enableGodMode()
-        godButton.Text = "Ungod Mode"  -- Update button text
-        isGodMode = true
+    if character then
+        -- Set health to negative to trigger respawn
+        character:WaitForChild("Humanoid").Health = -100
     end
 end)
 
--- Create the Give Sword button
+-- Create the Sword button
 local swordButton = Instance.new("TextButton")
 swordButton.Size = UDim2.new(0, 250, 0, 40)
 swordButton.Text = "Give Sword"
@@ -178,7 +157,6 @@ swordButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 swordButton.Font = Enum.Font.SourceSans
 swordButton.TextSize = 18
 swordButton.Parent = frame
-swordButton.Visible = true -- Make sure the sword button is visible
 
 -- Sword functionality
 swordButton.MouseButton1Click:Connect(function()
@@ -197,26 +175,16 @@ swordButton.MouseButton1Click:Connect(function()
     handle.CanCollide = false
     handle.Name = "Handle"
     handle.Parent = sword
-end)
-
--- Create the Respawn button
-local respawnButton = Instance.new("TextButton")
-respawnButton.Size = UDim2.new(0, 250, 0, 40)
-respawnButton.Text = "Respawn"
-respawnButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-respawnButton.TextColor3 = Color3.fromRGB(0, 0, 0)
-respawnButton.Font = Enum.Font.SourceSans
-respawnButton.TextSize = 18
-respawnButton.Parent = frame
-respawnButton.Visible = true -- Make sure the respawn button is visible
-
--- Respawn functionality
-respawnButton.MouseButton1Click:Connect(function()
-    local player = game.Players.LocalPlayer
-    local character = player.Character
-
-    if character then
-        -- Set health to negative to trigger respawn
-        character:WaitForChild("Humanoid").Health = -100
-    end
+-- Function to handle touch (damage another player)
+    handle.Touched:Connect(function(hit)
+        -- Check if the touched object has a Humanoid (i.e., another player)
+        local humanoid = hit.Parent:FindFirstChild("Humanoid")
+        if humanoid and hit.Parent ~= player.Character then  -- Make sure it's not the player who equipped the sword
+            humanoid.Health = humanoid.Health - 25  -- Dealing 25 damage (adjust as needed)
+            if humanoid.Health <= 0 then
+                -- Optionally, you can add custom behavior on player death
+                humanoid:TakeDamage(25)  -- Ensure the player dies if health goes to 0 or below
+            end
+        end
+    end)
 end)
