@@ -77,6 +77,20 @@ FlyButton.Font = Enum.Font.SourceSans
 FlyButton.TextSize = 24
 FlyButton.Parent = frame
 
+local StopFlyButton = Instance.new("TextButton")
+StopFlyButton.Size = UDim2.new(0, 150, 0, 50)
+StopFlyButton.Position = UDim2.new(0.5, -75, 0.4, 25)
+StopFlyButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
+StopFlyButton.Text = "Stop Fly"
+StopFlyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+StopFlyButton.Font = Enum.Font.SourceSans
+StopFlyButton.TextSize = 24
+StopFlyButton.Parent = frame
+
+StopFlyButton.MouseButton1Down:connect(function()
+	plr.Character.Humanoid.PlatformStand = true
+end
+
 FlyButton.MouseButton1Down:connect(function()
 	repeat wait()
 	until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild("Torso") and game.Players.LocalPlayer.Character:findFirstChild("Humanoid")
@@ -158,7 +172,6 @@ FlyButton.MouseButton1Down:connect(function()
 		end
 	end)
 	Fly()
-
 end)
 
 -- Create the Name Change Button and TextBox
