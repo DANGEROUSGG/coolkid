@@ -87,7 +87,7 @@ StopFlyButton.Font = Enum.Font.SourceSans
 StopFlyButton.TextSize = 24
 StopFlyButton.Parent = frame
 
-StopFlyButton.MouseButton1Down:connect(function()
+StopFlyButton.MouseButton1Down:connect(function(plr)
 	plr.Character.Humanoid.PlatformStand = true
 end
 
