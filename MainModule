@@ -23,22 +23,28 @@ layout.Parent = frame
 frame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
 
 -- Make the frame draggable
-local dragStart, dragInput, dragDifference
-local function updateDrag(input)
-    local delta = input.Position - dragStart
-    frame.Position = UDim2.new(frame.Position.X.Scale, frame.Position.X.Offset + delta.X, frame.Position.Y.Scale, frame.Position.Y.Offset + delta.Y)
-end
+local dragging = false
+local dragStart = nil
+local startPos = nil
 
 frame.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
         dragStart = input.Position
-        dragInput = input.InputChanged:Connect(updateDrag)
+        startPos = frame.Position
+    end
+end)
+
+frame.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
     end
 end)
 
 frame.InputEnded:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragInput:Disconnect()
+        dragging = false
     end
 end)
 
@@ -210,22 +216,47 @@ swordButton.MouseButton1Click:Connect(function()
     end)
 end)
 
--- Create the GodMode button
-local godModeButton = Instance.new("TextButton")
-godModeButton.Size = UDim2.new(0, 250, 0, 40)
-godModeButton.Text = "GodMode"
-godModeButton.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
-godModeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-godModeButton.Font = Enum.Font.SourceSans
-godModeButton.TextSize = 18
-godModeButton.Parent = frame
+-- Create the God Mode button
+local godButton = Instance.new("TextButton")
+godButton.Size = UDim2.new(0, 250, 0, 40)
+godButton.Text = "God Mode"
+godButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+godButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+godButton.Font = Enum.Font.SourceSans
+godButton.TextSize = 24
+godButton.Parent = frame
+godButton.Visible = true -- Make sure the god button is visible
 
--- GodMode functionality
-godModeButton.MouseButton1Click:Connect(function()
-    local player = game.Players.LocalPlayer
-    local humanoid = player.Character:WaitForChild("Humanoid")
-    humanoid.Health = humanoid.MaxHealth  -- Restore health to max health
-    humanoid.HealthChanged:Connect(function()
-        humanoid.Health = humanoid.MaxHealth  -- Prevent health from changing, essentially giving god mode
-    end)
+-- God Mode functionality (toggle on and off)
+local isGodMode = false
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Function to enable God Mode
+local function enableGodMode()
+    if humanoid then
+        humanoid.Health = 999999999999999  -- Set health to a very high number
+    end
+end
+
+-- Function to disable God Mode
+local function disableGodMode()
+    if humanoid then
+        humanoid.Health = 100  -- Reset health to 100
+    end
+end
+
+godButton.MouseButton1Click:Connect(function()
+    if isGodMode then
+        -- Disable God Mode
+        disableGodMode()
+        godButton.Text = "God Mode"  -- Update button text
+        isGodMode = false
+    else
+        -- Enable God Mode
+        enableGodMode()
+        godButton.Text = "Ungod Mode"  -- Update button text
+        isGodMode = true
+    end
 end)
