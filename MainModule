@@ -4,14 +4,12 @@ screenGui.Name = "MyGUI"
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 -- Create the green ScrollingFrame
-local frame = Instance.new("ScrollingFrame")
+local frame = Instance.new("Frame")
 frame.Size = UDim2.new(1, 1, 1, 1)  -- Adjust size to accommodate all elements
 frame.Position = UDim2.new(0.5, -150, 0.5, -250)
 frame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-frame.ScrollBarThickness = 10  -- Set thickness for the scrollbar
 frame.Parent = screenGui
 frame.Visible = true -- Make sure the frame is visible
-frame.ScrollingEnabled = true
 
 -- Add UIListLayout for vertical arrangement inside the ScrollingFrame
 local layout = Instance.new("UIListLayout")
