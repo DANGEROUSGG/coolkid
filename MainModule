@@ -5,7 +5,7 @@ screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 -- Create the green ScrollingFrame
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(1, 1, 1, 1)  -- Adjust size to accommodate all elements
+frame.Size = UDim2.new(0.9, 0, 0.9, 0)  -- Adjust size to accommodate all elements
 frame.Position = UDim2.new(0.5, -150, 0.5, -250)
 frame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 frame.Parent = screenGui
@@ -349,7 +349,7 @@ local humanoid = character:WaitForChild("Humanoid")
 -- Function to enable God Mode
 local function enableGodMode()
     if humanoid then
-        humanoid.Health = 999999999999999  -- Set health to a very high number
+        humanoid.Health = math.huge  -- Set health to a very high number
     end
 end
 
