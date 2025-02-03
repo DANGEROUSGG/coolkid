@@ -11,6 +11,7 @@ frame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 frame.ScrollBarThickness = 10  -- Set thickness for the scrollbar
 frame.Parent = screenGui
 frame.Visible = true -- Make sure the frame is visible
+frame.ScrollingEnabled = true
 
 -- Add UIListLayout for vertical arrangement inside the ScrollingFrame
 local layout = Instance.new("UIListLayout")
