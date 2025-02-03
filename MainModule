@@ -22,17 +22,19 @@ layout.Parent = frame
 -- Ensure the list is automatically updated when new buttons are added
 frame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
 
-local Button = Instance.new("TextButton")
-Button.Size = UDim2.new(0, 50, 0, 50)
-Button.Position = UDim2.new({0.663, 0},{0.036, 0})
-Button.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
-Button.Text = "X"
-Button.TextColor3 = Color3.fromRGB(255, 0, 0)
-Button.Font = Enum.Font.SourceSans
-Button.TextSize = 24
-Button.Parent = screenGui
+local insertbutton = Instance.new("TextButton")
+insertbutton.Size = UDim2.new(0, 50, 0, 50)
+insertbutton.Position = UDim2.new({0.663, 0},{0.036, 0})
+insertbutton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
+insertbutton.Text = "X"
+insertbutton.TextColor3 = Color3.fromRGB(255, 0, 0)
+insertbutton.Font = Enum.Font.SourceSans
+insertbutton.TextSize = 24
+insertbutton.Parent = screenGui
 
-
+insertbutton.MouseButton1Click:Connect(function()
+	frame.Visible = not frame.Visible
+end
 
 -- Make the frame draggable
 local dragging = false
