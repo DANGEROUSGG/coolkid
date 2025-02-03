@@ -168,3 +168,55 @@ godButton.MouseButton1Click:Connect(function()
         isGodMode = true
     end
 end)
+
+-- Create the Give Sword button
+local swordButton = Instance.new("TextButton")
+swordButton.Size = UDim2.new(0, 250, 0, 40)
+swordButton.Text = "Give Sword"
+swordButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+swordButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+swordButton.Font = Enum.Font.SourceSans
+swordButton.TextSize = 18
+swordButton.Parent = frame
+swordButton.Visible = true -- Make sure the sword button is visible
+
+-- Sword functionality
+swordButton.MouseButton1Click:Connect(function()
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local sword = Instance.new("Tool")
+    sword.Name = "Sword"
+    sword.RequiresHandle = true
+    sword.Parent = player.Backpack
+
+    -- Create a simple sword handle
+    local handle = Instance.new("Part")
+    handle.Size = Vector3.new(0.2, 5, 0.2)
+    handle.Color = Color3.fromRGB(255, 0, 0)
+    handle.Anchored = false
+    handle.CanCollide = false
+    handle.Name = "Handle"
+    handle.Parent = sword
+end)
+
+-- Create the Respawn button
+local respawnButton = Instance.new("TextButton")
+respawnButton.Size = UDim2.new(0, 250, 0, 40)
+respawnButton.Text = "Respawn"
+respawnButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+respawnButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+respawnButton.Font = Enum.Font.SourceSans
+respawnButton.TextSize = 18
+respawnButton.Parent = frame
+respawnButton.Visible = true -- Make sure the respawn button is visible
+
+-- Respawn functionality
+respawnButton.MouseButton1Click:Connect(function()
+    local player = game.Players.LocalPlayer
+    local character = player.Character
+
+    if character then
+        -- Set health to negative to trigger respawn
+        character:WaitForChild("Humanoid").Health = -100
+    end
+end)
